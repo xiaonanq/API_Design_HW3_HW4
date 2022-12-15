@@ -5,19 +5,36 @@ import grpc
 import Library_pb2_grpc
 import Library_pb2
 
-# ISBN = 3
-# ID = 3
+'''
+Using a list to store InventoryItems
+each InventoryItems follows the structure
+defined in Library.proto file
+e.g. InventoryItemList = [
+    InventoryItem1{
+        Id,
+        Book{
+            id,
+            author,
+            title,
+            year,
+            genre
+        },
+        status
+    },
+    InventoryItem2{
+        ...
+    }
+]
+'''
 InventoryItemList = []
 
 class Inventory(Library_pb2_grpc.InventoryServiceServicer):
     def CreateBook(self, request, context):
         newISBN = int(InventoryItemList[len(InventoryItemList)-1].book.Id)+1
         response = Library_pb2.InventoryCreateBookResponse(Id=str(newISBN), title=request.title)
-        # ISBN += 1
         newBook = Library_pb2.Book(author=request.author,title = request.title,year = request.year,genre = request.genre,Id = response.Id)
         newID = int(InventoryItemList[len(InventoryItemList)-1].Id)+1
         newInventoryItem = Library_pb2.InventoryItem(Id=str(newID), book=newBook, status=Library_pb2.AVAILABLE)
-        # ID += 1
         InventoryItemList.append(newInventoryItem)
         return response
     
