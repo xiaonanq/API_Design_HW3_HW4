@@ -4,6 +4,9 @@ from inventory_client import InventoryClient
 from get_book_titles import get_book_titles
 
 class Client_Tests(unittest.TestCase):
+    '''
+    Test using mock client
+    '''
     def test01(self):
         InventoryClientMock = InventoryClient()
         InventoryClientMock.getBookTitles = MagicMock(return_value = ["Happy Coding", "Take Photos"])
@@ -11,6 +14,9 @@ class Client_Tests(unittest.TestCase):
         res = get_book_titles(InventoryClientMock, ["1", "2"])
         exp = ["Happy Coding", "Take Photos"]
         self.assertEqual(res, exp)
+    '''
+    Test using real server
+    '''
     def test02(self):
         InventoryClientReal = InventoryClient()
         res = get_book_titles(InventoryClientReal, ["1", "2"])
