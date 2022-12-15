@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package project.module.inventory;
+
+enum Genre {
+    SCIENCE = 0;
+    ART = 1;
+    LITERATURE = 2;
+    ENGINEERING = 3;
+}
+
+enum Status {
+    AVAILABLE = 0;
+    TAKEN = 1;
+}
+
+message Book {
+    optional string Id = 1;
+    optional string title = 2;
+    optional string author = 3;
+    optional int32 year = 4;
+    optional Genre genre = 5;
+}
+
+message InventoryItem {
+    optional string Id = 5;
+    oneof book_oneof {
+        Book book = 1;
+    }
+    optional Status status = 2;
+}
+
+message InventoryCreateBookRequest {
+    optional string title = 1;
+    optional string author = 2;
+    optional int32 year = 3;
+    optional Genre genre = 4;
+}
+
+message InventoryCreateBookResponse {
+    optional string Id = 1;
+    optional string title = 2;
+}
+
+message InventoryGetBookRequest {
+    optional string Id = 1;
+}
+
+message InventoryGetBookResponse {
+    optional string title = 1;
+}
+
+service InventoryService {
+    rpc CreateBook(InventoryCreateBookRequest) returns (InventoryCreateBookResponse){
+        //option deadline = 1.0;
+    }
+    rpc GetBook(InventoryGetBookRequest) returns (InventoryGetBookResponse){
+        //option deadline = 5.0;
+    }
+}
